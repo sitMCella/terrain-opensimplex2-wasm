@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WASM Rust Demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script type="module" src="./bootstrap.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            const sideMenuElement = document.getElementById('sideMenu');
+
+            const terrainWidthElement = document.getElementById('terrainwidth');
+            let terrainWidth = terrainWidthElement.value;
+
+            const terrainDepthElement = document.getElementById('terraindepth');
+            let terrainDepth = terrainDepthElement.value;
+
+            const terrainSeedElement = document.getElementById('terrainseed');
+            let terrainSeed = terrainSeedElement.value;
+
+            const terrainColorElement = document.getElementById('terraincolor');
+            let terrainColor = "304630";
+
+            const terrainMaxHeightElement = document.getElementById('terrainmaxheight');
+            let terrainMaxHeight = terrainMaxHeightElement.value;
+
+            const terrainFailoffElement = document.getElementById('terrainfailoff');
+            let terrainFailoff = terrainFailoffElement.value;
+
+            const terrainZElement = document.getElementById('terrainz');
+            let terrainZ = terrainZElement.value;
+
+            const terrainFractalOctavesElement = document.getElementById('terrainfractaloctaves');
+            let terrainFractalOctaves = terrainFractalOctavesElement.value;
+
+            const terrainFractalFrequencyElement = document.getElementById('terrainfractalfrequency');
+            let terrainFractalFrequency = terrainFractalFrequencyElement.value;
+
+            const cameraPositionXElement = document.getElementById('camerapositionx');
+            let cameraPositionX = cameraPositionXElement.value;
+
+            const cameraPositionYElement = document.getElementById('camerapositiony');
+            let cameraPositionY = cameraPositionYElement.value;
+
+            const cameraPositionZElement = document.getElementById('camerapositionz');
+            let cameraPositionZ = cameraPositionZElement.value;
+
+            const cameraFieldViewYElement = document.getElementById('camerafieldviewy');
+            let cameraFieldViewY = cameraFieldViewYElement.value;
+
+            const cameraFarZElement = document.getElementById('camerafarz');
+            let cameraFarZ = cameraFarZElement.value;
+
+            const cameraTargetXElement = document.getElementById('cameratargetx');
+            let cameraTargetX = cameraTargetXElement.value;
+
+            const cameraTargetYElement = document.getElementById('cameratargety');
+            let cameraTargetY = cameraTargetYElement.value;
+
+            const cameraTargetZElement = document.getElementById('cameratargetz');
+            let cameraTargetZ = cameraTargetZElement.value;
+
+            function execute() {
+                run(parseFloat(terrainWidth), parseFloat(terrainDepth), BigInt(terrainSeed), terrainColor, parseFloat(terrainMaxHeight), parseFloat(terrainFailoff), parseFloat(terrainZ), terrainFractalOctaves, parseFloat(terrainFractalFrequency), cameraPositionX, cameraPositionY, cameraPositionZ, cameraFieldViewY, cameraFarZ, cameraTargetX, cameraTargetY, cameraTargetZ);
+            }
+
+            function updateTerrainWidth() {
+                const terrainWidthNewValue = terrainWidthElement.value;
+                if (terrainWidthNewValue !== terrainWidth) {
+                    terrainWidth = terrainWidthNewValue;
+                    execute();
+                }
+            }
+
+            function updateTerrainDepth() {
+                const terrainDepthNewValue = terrainDepthElement.value;
+                if (terrainDepthNewValue !== terrainDepth) {
+                    terrainDepth = terrainDepthNewValue;
+                    execute();
+                }
+            }
+
+            function updateTerrainSeed() {
+                const terrainSeedNewValue = terrainSeedElement.value;
+                if (terrainSeedNewValue !== terrainSeed) {
+                    terrainSeed = terrainSeedNewValue;
+                    execute();
+                }
+            }
+
+            function updateTerrainColor() {
+                const terrainColorNewValue = terrainColorElement.value.substring(1);
+                if (terrainColorNewValue !== terrainColor) {
+                    terrainColor = terrainColorNewValue;
+                    execute();
+                }
+            }
+
+            function updateTerrainMaxHeight() {
+                const terrainMaxHeightNewValue = terrainMaxHeightElement.value;
+                if (terrainMaxHeightNewValue !== terrainMaxHeight) {
+                    terrainMaxHeight = terrainMaxHeightNewValue;
+                    execute();
+                }
+            }
+
+            function updateTerrainFailoff() {
+                const terrainFailoffNewValue = terrainFailoffElement.value;
+                if (terrainFailoffNewValue !== terrainFailoff) {
+                    terrainFailoff = terrainFailoffNewValue;
+                    execute();
+                }
+            }
+
+            function updateTerrainZ() {
+                const terrainZNewValue = terrainZElement.value;
+                if (terrainZNewValue !== terrainZ) {
+                    terrainZ = terrainZNewValue;
+                    execute();
+                }
+            }
+
+            function updateTerrainFractalOctaves() {
+                const terrainFractalOctavesNewValue = terrainFractalOctavesElement.value;
+                if (terrainFractalOctavesNewValue !== terrainFractalOctaves) {
+                    terrainFractalOctaves = terrainFractalOctavesNewValue;
+                    execute();
+                }
+            }
+
+            function updateTerrainFractalFrequency() {
+                const terrainFractalFrequencyNewValue = terrainFractalFrequencyElement.value;
+                if (terrainFractalFrequencyNewValue !== terrainFractalFrequency) {
+                    terrainFractalFrequency = terrainFractalFrequencyNewValue;
+                    execute();
+                }
+            }
+
+            function updateCameraPositionX() {
+                const cameraPositionXNewValue = cameraPositionXElement.value;
+                if (cameraPositionXNewValue !== cameraPositionX) {
+                    cameraPositionX = cameraPositionXNewValue;
+                    execute();
+                }
+            }
+
+            function updateCameraPositionY() {
+                const cameraPositionYNewValue = cameraPositionYElement.value;
+                if (cameraPositionYNewValue !== cameraPositionY) {
+                    cameraPositionY = cameraPositionYNewValue;
+                    execute();
+                }
+            }
+
+            function updateCameraPositionZ() {
+                const cameraPositionZNewValue = cameraPositionZElement.value;
+                if (cameraPositionZNewValue !== cameraPositionZ) {
+                    cameraPositionZ = cameraPositionZNewValue;
+                    execute();
+                }
+            }
+
+            function updateCameraFieldViewY() {
+                const cameraFieldViewYNewValue = cameraFieldViewYElement.value;
+                if (cameraFieldViewYNewValue !== cameraFieldViewY) {
+                    cameraFieldViewY = cameraFieldViewYNewValue;
+                    execute();
+                }
+            }
+
+            function updateCameraFarZ() {
+                const cameraFarZNewValue = cameraFarZElement.value;
+                if (cameraFarZNewValue !== cameraFarZ) {
+                    cameraFarZ = cameraFarZNewValue;
+                    execute();
+                }
+            }
+
+            function updateCameraTargetX() {
+                const cameraTargetXNewValue = cameraTargetXElement.value;
+                if (cameraTargetXNewValue !== cameraTargetX) {
+                    cameraTargetX = cameraTargetXNewValue;
+                    execute();
+                }
+            }
+
+            function updateCameraTargetY() {
+                const cameraTargetYNewValue = cameraTargetYElement.value;
+                if (cameraTargetYNewValue !== cameraTargetY) {
+                    cameraTargetY = cameraTargetYNewValue;
+                    execute();
+                }
+            }
+
+            function updateCameraTargetZ() {
+                const cameraTargetZNewValue = cameraTargetZElement.value;
+                if (cameraTargetZNewValue !== cameraTargetZ) {
+                    cameraTargetZ = cameraTargetZNewValue;
+                    execute();
+                }
+            }
+
+            terrainWidthElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateTerrainWidth();
+                }
+            });
+
+            terrainDepthElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateTerrainDepth();
+                }
+            });
+
+            terrainSeedElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateTerrainSeed();
+                }
+            });
+
+            terrainMaxHeightElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateTerrainMaxHeight();
+                }
+            });
+
+            terrainFailoffElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateTerrainFailoff();
+                }
+            });
+
+            terrainZElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateTerrainZ();
+                }
+            });
+
+            terrainFractalOctavesElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateTerrainFractalOctaves();
+                }
+            });
+
+            terrainFractalFrequencyElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateTerrainFractalFrequency();
+                }
+            });
+
+            cameraPositionXElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateCameraPositionX();
+                }
+            });
+
+            cameraPositionYElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateCameraPositionY();
+                }
+            });
+
+            cameraPositionZElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateCameraPositionZ();
+                }
+            });
+
+            cameraFieldViewYElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateCameraFieldViewY();
+                }
+            });
+
+            cameraFarZElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateCameraFarZ();
+                }
+            });
+
+            cameraTargetXElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateCameraTargetX();
+                }
+            });
+
+            cameraTargetYElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateCameraTargetY();
+                }
+            });
+
+            cameraTargetZElement.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    updateCameraTargetZ();
+                }
+            });
+
+            sideMenuElement.addEventListener('click', (event) => {
+                updateTerrainWidth();
+                updateTerrainDepth();
+                updateTerrainSeed();
+                updateTerrainColor();
+                updateTerrainMaxHeight();
+                updateTerrainFailoff();
+                updateTerrainZ();
+                updateTerrainFractalOctaves();
+                updateTerrainFractalFrequency();
+                updateCameraPositionX();
+                updateCameraPositionY();
+                updateCameraPositionZ();
+                updateCameraFieldViewY();
+                updateCameraFarZ();
+                updateCameraTargetX();
+                updateCameraTargetY();
+                updateCameraTargetZ();
+            });
+        });
+    </script>
+    <script type="module">
+        import { run } from "./bootstrap.js";
+        run(50.0, 50.0, 1n, "304630", 4.0, 200.0, 25.0, 3, 2.0, 35, 22, 82, 45, 100, 18, -10, 0);
+        window.run = run;
+    </script>
+    <style>
+        #hamburger-btn {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 9999;
+            font-weight: 200;
+            vertical-align: top;
+        }
+
+        #sideMenu {
+            height: 50vh;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <button id="hamburger-btn" class="btn btn-secondary" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#sideMenu" aria-controls="sideMenu">
+        ☰
+    </button>
+    <div class="offcanvas offcanvas-top" tabindex="-1" id="sideMenu">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+
+        <div class="offcanvas-body">
+            <div id="collapseTerrain" class="accordion-collapse collapse show" aria-labelledby="headingTerrain"
+                data-bs-parent="#accordion">
+
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="terrain-tab" data-bs-toggle="tab" data-bs-target="#terrain"
+                            type="button" role="tab" aria-controls="terrain" aria-selected="true">Terrain</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="camera-tab" data-bs-toggle="tab" data-bs-target="#camera"
+                            type="button" role="tab" aria-controls="camera" aria-selected="true">Camera</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content mt-3" id="tabContent">
+                    <div class="tab-pane show active" id="terrain" role="tabpanel" aria-labelledby="terrain-tab">
+                        <div class="mb-3 align-items-center">
+                            <div class="row mb-3 g-3 align-items-center">
+                                <div class="col-auto">
+                                    <label for="terrainwidth" class="form-label">Width:</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" id="terrainwidth" value="50" />
+                                </div>
+                                <div class="col-auto">
+                                    <label for="terraindepth" class="form-label">Depth:</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" id="terraindepth" value="50" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 g-3 align-items-center">
+                            <div class="col-auto">
+                                <label for="terrainseed" class="form-label">Seed:</label>
+                            </div>
+                            <div class="col-auto">
+                                <input class="form-control" type="number" id="terrainseed" value="1">
+                            </div>
+                        </div>
+                        <div class="row mb-3 g-3 align-items-center">
+                            <div class="col-auto">
+                                <label for="terraincolor" class="form-label">Color:</label>
+                            </div>
+                            <div class="col-auto">
+                                <input type="color" class="form-control form-control-color" id="terraincolor"
+                                    value="#304630" title="Choose your color">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 align-items-center">
+                            <div class="row mb-3 g-3 align-items-center">
+                                <div class="col-auto">
+                                    <label for="terrainmaxheight" class="form-label">Max Height:</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" id="terrainmaxheight" value="4">
+                                </div>
+                                <div class="col-auto">
+                                    <label for="terrainfailoff" class="form-label">Failoff:</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" id="terrainfailoff" value="200">
+                                </div>
+                                <div class="col-auto">
+                                    <label for="terrainz" class="form-label">Z:</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" id="terrainz" value="25">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 align-items-center">
+                            <div class="row mb-3 g-3 align-items-center">
+                                <div class="col-auto">
+                                    <label for="terrainfractaloctaves" class="form-label">Fractal Octaves:</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" id="terrainfractaloctaves" value="3">
+                                </div>
+                                <div class="col-auto">
+                                    <label for="terrainfractalfrequency" class="form-label">Fractal Frequency:</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" id="terrainfractalfrequency" value="2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="camera" role="tabpanel" aria-labelledby="camera-tab">
+                        <div class="mb-3 align-items-center">
+                            <div class="col-auto">
+                                <label>Position:</label>
+                            </div>
+                            <div class="row mb-3 g-3 align-items-center">
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" id="camerapositionx" placeholder="X"
+                                        value="35" />
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" id="camerapositiony" placeholder="Y"
+                                        value="22" />
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" id="camerapositionz" placeholder="Z"
+                                        value="82" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 align-items-center">
+                            <div class="row mb-3 g-3 align-items-center">
+                                <div class="col-auto">
+                                    <label for="camerafieldviewy" class="form-label">Field View y:</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" id="camerafieldviewy" value="45">
+                                </div>
+                                <div class="col-auto">
+                                    <label for="camerafarz" class="form-label">Far z:</label>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" id="camerafarz" value="100">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 align-items-center">
+                            <div class="col-auto">
+                                <label>Target:</label>
+                            </div>
+                            <div class="row mb-3 g-3 align-items-center">
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" id="cameratargetx" placeholder="X"
+                                        value="18" />
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" id="cameratargety" placeholder="Y"
+                                        value="-10" />
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="number" id="cameratargetz" placeholder="Z"
+                                        value="0" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
