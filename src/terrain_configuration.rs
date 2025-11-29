@@ -49,25 +49,23 @@ pub type Vec3 = Vector3<f32>;
 
 #[derive(Deserialize, Serialize)]
 pub struct Srgba {
-    /// Red component
+    // Red component
     pub r: u8,
-    /// Green component
+    // Green component
     pub g: u8,
-    /// Blue component
+    // Blue component
     pub b: u8,
-    /// Alpha component
+    // Alpha component
     pub a: u8,
 }
 
 impl Srgba {
-    ///
-    /// Creates a new sRGBA color with the given values.
-    ///
     pub const fn new(r: u8, g: u8, b: u8, a: u8) -> Self {
         Self { r, g, b, a }
     }
 }
 
+// nalgebra::Vector3<f32> does not implement Serialize
 #[derive(Deserialize, Serialize)]
 pub struct Vec3Wrapper {
     pub x: f32,
@@ -75,7 +73,7 @@ pub struct Vec3Wrapper {
     pub z: f32,
 }
 
-// Convert to nalgebra::Vector3<f32>
+// Convert Vec3Wrapper to nalgebra::Vector3<f32>
 impl From<Vec3Wrapper> for Vector3<f32> {
     fn from(v: Vec3Wrapper) -> Self {
         Vector3::new(v.x, v.y, v.z)
