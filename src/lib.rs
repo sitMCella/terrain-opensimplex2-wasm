@@ -34,9 +34,9 @@ impl TerrainSettings {
         failoff: f32,
         z: f64,
         fractal_octaves: i32,
-        fractal_frequency: f64
+        fractal_frequency: f64,
     ) -> TerrainSettings {
-        TerrainSettings { 
+        TerrainSettings {
             width,
             depth,
             seed,
@@ -45,15 +45,13 @@ impl TerrainSettings {
             failoff,
             z,
             fractal_octaves,
-            fractal_frequency
+            fractal_frequency,
         }
     }
 }
 
 #[wasm_bindgen]
-pub fn generate_terrain(
-    terrainSettings: TerrainSettings
-) -> JsValue {
+pub fn generate_terrain(terrainSettings: TerrainSettings) -> JsValue {
     let terrain_configuration = TerrainConfiguration::new(
         terrainSettings.width,
         terrainSettings.depth,
@@ -63,7 +61,7 @@ pub fn generate_terrain(
         terrainSettings.failoff,
         terrainSettings.z,
         terrainSettings.fractal_octaves,
-        terrainSettings.fractal_frequency
+        terrainSettings.fractal_frequency,
     );
 
     let terrain = configure_terrain(&terrain_configuration);
