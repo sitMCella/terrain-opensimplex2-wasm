@@ -1,4 +1,4 @@
-import init, { generate_terrain } from "./pkg/terrain-webassembly.js";
+import init, { generate_terrain, TerrainSettings } from "./pkg/terrain-webassembly.js";
 import * as THREE from './three.module.js';
 
 const scene = new THREE.Scene();
@@ -47,14 +47,14 @@ export class CameraParameters {
   }
 }
 
-
 let mesh;
 
 let initialization = true;
 
 export async function run(terrainParameters, cameraParameters) {
   await init();
-  let terrain = generate_terrain(terrainParameters.width, terrainParameters.depth, terrainParameters.seed, terrainParameters.color, terrainParameters.max_height, terrainParameters.failoff, terrainParameters.z, terrainParameters.fractal_octaves, terrainParameters.fractal_frequency);
+  const terrainSettings = new TerrainSettings(terrainParameters.width, terrainParameters.depth, terrainParameters.seed, terrainParameters.color, terrainParameters.max_height, terrainParameters.failoff, terrainParameters.z, terrainParameters.fractal_octaves, terrainParameters.fractal_frequency);
+  let terrain = generate_terrain(terrainSettings);
 
   if (mesh !== null) {
     scene.remove(mesh);
