@@ -1,5 +1,7 @@
 # Terrain Generation using OpenSimplex 2
 
+![Document](https://github.com/sitMCella/terrain-opensimplex2-wasm/wiki/images/terrain.png)
+
 ## Table of contents
 
 * [Introduction](#introduction)
@@ -12,7 +14,7 @@
 
 ## Introduction
 
-Generation and visualization of terrains created using OpenSimplex 2 with 3D noise.
+Terrain generation and visualization using OpenSimplex 2 and 3D noise.
 
 This project includes code originally made available under CC0 1.0 Universal (Public Domain).
 Original source: https://github.com/KdotJPG/OpenSimplex2

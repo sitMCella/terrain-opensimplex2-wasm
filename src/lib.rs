@@ -10,7 +10,7 @@ use wasm_bindgen::JsValue;
 pub fn start() {}
 
 #[wasm_bindgen]
-pub fn generate_terrain(
+pub struct TerrainSettings {
     width: f32,
     depth: f32,
     seed: i64,
@@ -20,17 +20,48 @@ pub fn generate_terrain(
     z: f64,
     fractal_octaves: i32,
     fractal_frequency: f64,
-) -> JsValue {
+}
+
+#[wasm_bindgen]
+impl TerrainSettings {
+    #[wasm_bindgen(constructor)]
+    pub fn new(
+        width: f32,
+        depth: f32,
+        seed: i64,
+        color: String,
+        max_height: f32,
+        failoff: f32,
+        z: f64,
+        fractal_octaves: i32,
+        fractal_frequency: f64,
+    ) -> TerrainSettings {
+        TerrainSettings {
+            width,
+            depth,
+            seed,
+            color,
+            max_height,
+            failoff,
+            z,
+            fractal_octaves,
+            fractal_frequency,
+        }
+    }
+}
+
+#[wasm_bindgen]
+pub fn generate_terrain(terrainSettings: TerrainSettings) -> JsValue {
     let terrain_configuration = TerrainConfiguration::new(
-        width,
-        depth,
-        seed,
-        color,
-        max_height,
-        failoff,
-        z,
-        fractal_octaves,
-        fractal_frequency,
+        terrainSettings.width,
+        terrainSettings.depth,
+        terrainSettings.seed,
+        terrainSettings.color,
+        terrainSettings.max_height,
+        terrainSettings.failoff,
+        terrainSettings.z,
+        terrainSettings.fractal_octaves,
+        terrainSettings.fractal_frequency,
     );
 
     let terrain = configure_terrain(&terrain_configuration);

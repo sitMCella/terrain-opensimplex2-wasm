@@ -1,4 +1,4 @@
-import init, { generate_terrain } from "./pkg/terrain-webassembly.js";
+import init, { generate_terrain, TerrainSettings } from "./pkg/terrain-webassembly.js";
 import * as THREE from './three.module.js';
 
 const scene = new THREE.Scene();
@@ -20,25 +20,53 @@ const camera = new THREE.PerspectiveCamera(
   2000
 );
 
+export class TerrainParameters {
+  constructor(width, depth, seed, color, max_height, failoff, z, fractal_octaves, fractal_frequency) {
+    this.width = width;
+    this.depth = depth;
+    this.seed = seed;
+    this.color = color;
+    this.max_height = max_height;
+    this.failoff = failoff;
+    this.z = z;
+    this.fractal_octaves = fractal_octaves;
+    this.fractal_frequency = fractal_frequency;
+  }
+}
+
+export class CameraParameters {
+  constructor(cameraPositionX, cameraPositionY, cameraPositionZ, cameraFieldViewY, cameraFarZ, cameraTargetX, cameraTargetY, cameraTargetZ) {
+    this.cameraPositionX = cameraPositionX;
+    this.cameraPositionY = cameraPositionY;
+    this.cameraPositionZ = cameraPositionZ;
+    this.cameraFieldViewY = cameraFieldViewY;
+    this.cameraFarZ = cameraFarZ;
+    this.cameraTargetX = cameraTargetX;
+    this.cameraTargetY = cameraTargetY;
+    this.cameraTargetZ = cameraTargetZ;
+  }
+}
+
 let mesh;
 
 let initialization = true;
 
-export async function run(width, depth, seed, color, max_height, failoff, z, fractal_octaves, fractal_frequency, cameraPositionX, cameraPositionY, cameraPositionZ, cameraFieldViewY, cameraFarZ, cameraTargetX, cameraTargetY, cameraTargetZ) {
+export async function run(terrainParameters, cameraParameters) {
   await init();
-  let terrain = generate_terrain(width, depth, seed, color, max_height, failoff, z, fractal_octaves, fractal_frequency);
+  const terrainSettings = new TerrainSettings(terrainParameters.width, terrainParameters.depth, terrainParameters.seed, terrainParameters.color, terrainParameters.max_height, terrainParameters.failoff, terrainParameters.z, terrainParameters.fractal_octaves, terrainParameters.fractal_frequency);
+  let terrain = generate_terrain(terrainSettings);
 
   if (mesh !== null) {
     scene.remove(mesh);
   }
 
-  camera.position.set(cameraPositionX, cameraPositionY, cameraPositionZ);
-  camera.fov = cameraFieldViewY;
+  camera.position.set(cameraParameters.cameraPositionX, cameraParameters.cameraPositionY, cameraParameters.cameraPositionZ);
+  camera.fov = cameraParameters.cameraFieldViewY;
   camera.near = 0.1;
-  if (initialization === true) { // Error: the mesh disappears if the parameter var is modified after the first assignment.
-    camera.far = cameraFarZ;
+  if (initialization === true) { // The mesh disappears if camera.far is modified after the first assignment.
+    camera.far = cameraParameters.cameraFarZ;
   }
-  camera.lookAt(cameraTargetX, cameraTargetY, cameraTargetZ);
+  camera.lookAt(cameraParameters.cameraTargetX, cameraParameters.cameraTargetY, cameraParameters.cameraTargetZ);
 
   camera.updateProjectionMatrix();
 
